@@ -1,0 +1,3 @@
+dbt-postgres
+psycopg2-binary
+python-dotenv
