@@ -30,13 +30,6 @@ orders, order_items = [], []
 start = datetime(2024, 1, 1)
 item_id = 1
 
-payments = [{"id": o["id"],
-             "order_id": o["id"],
-             "method": random.choice(METHODS),
-             "amount": o["total_price"],
-             "paid_at": o["order_date"]}
-            for o in orders]
-
 for order_id in range(1, 5001):
     order_date = start + timedelta(days=random.randint(0, 730),
                                    hours=random.randint(0, 23))
@@ -55,6 +48,13 @@ for order_id in range(1, 5001):
                    "user_id": random.randint(1, len(users)),
                    "total_price": round(total, 2),
                    "order_date": order_date.isoformat(sep=" ")})
+
+payments = [{"id": o["id"],
+             "order_id": o["id"],
+             "method": random.choice(METHODS),
+             "amount": o["total_price"],
+             "paid_at": o["order_date"]}
+            for o in orders]
 
 def write_csv(filename, rows):
     with open(filename, "w", newline="", encoding="utf-8") as f:
