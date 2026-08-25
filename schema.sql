@@ -35,3 +35,11 @@ create table raw.order_items (
     historical_price numeric(12,2) not null,
     quantity         int not null
 );
+
+create table raw.payments (
+    id        int primary key,
+    order_id  int not null references raw.orders(id),
+    method    varchar(50) not null,
+    amount    numeric(12,2) not null,
+    paid_at   timestamp not null
+);

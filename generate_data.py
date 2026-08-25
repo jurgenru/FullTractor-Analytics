@@ -6,6 +6,7 @@ random.seed(42)  # mismos datos cada vez que corras
 CATEGORIES = ["Tractors", "Harvesters", "Irrigation", "Tools", "Spare Parts"]
 FIRST = ["Juan", "Maria", "Carlos", "Ana", "Luis", "Sofia", "Pedro", "Lucia"]
 LAST = ["Perez", "Gomez", "Rojas", "Mamani", "Quispe", "Vargas", "Flores"]
+METHODS = ["cash", "card", "transfer"]
 
 # 1. categories
 categories = [{"id": i, "name": n} for i, n in enumerate(CATEGORIES, start=1)]
@@ -28,6 +29,13 @@ products = [{"id": i,
 orders, order_items = [], []
 start = datetime(2024, 1, 1)
 item_id = 1
+
+payments = [{"id": o["id"],
+             "order_id": o["id"],
+             "method": random.choice(METHODS),
+             "amount": o["total_price"],
+             "paid_at": o["order_date"]}
+            for o in orders]
 
 for order_id in range(1, 5001):
     order_date = start + timedelta(days=random.randint(0, 730),
@@ -60,3 +68,4 @@ write_csv("users.csv", users)
 write_csv("products.csv", products)
 write_csv("orders.csv", orders)
 write_csv("order_items.csv", order_items)
+write_csv("payments.csv", payments)

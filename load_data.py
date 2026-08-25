@@ -18,6 +18,7 @@ TABLES = [
     ("raw.products",    "products.csv"),
     ("raw.orders",      "orders.csv"),
     ("raw.order_items", "order_items.csv"),
+    ("raw.payments",    "payments.csv"),
 ]
 
 for table, filename in TABLES:
