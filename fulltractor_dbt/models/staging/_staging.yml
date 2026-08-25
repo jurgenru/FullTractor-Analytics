@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Una fila por orden del e-commerce, con el total registrado por la aplicación.
+    columns:
+      - name: order_id
+        description: Identificador único de la orden en el sistema fuente.
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_users')
+              field: customer_id
+      - name: order_total_amount
+        description: >
+          Total registrado por la aplicación al momento de la compra.
+          No usar para reportes de revenue: sumar line_amount desde stg_order_items.
+        tests:
+          - not_null

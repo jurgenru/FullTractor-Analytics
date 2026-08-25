@@ -1,0 +1,6 @@
+venv/
+.env
+*.csv
+target/
+dbt_packages/
+logs/
