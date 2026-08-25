@@ -6,6 +6,7 @@ random.seed(42)  # mismos datos cada vez que corras
 CATEGORIES = ["Tractors", "Harvesters", "Irrigation", "Tools", "Spare Parts"]
 FIRST = ["Juan", "Maria", "Carlos", "Ana", "Luis", "Sofia", "Pedro", "Lucia"]
 LAST = ["Perez", "Gomez", "Rojas", "Mamani", "Quispe", "Vargas", "Flores"]
+METHODS = ["cash", "card", "transfer"]
 
 # 1. categories
 categories = [{"id": i, "name": n} for i, n in enumerate(CATEGORIES, start=1)]
@@ -48,6 +49,13 @@ for order_id in range(1, 5001):
                    "total_price": round(total, 2),
                    "order_date": order_date.isoformat(sep=" ")})
 
+payments = [{"id": o["id"],
+             "order_id": o["id"],
+             "method": random.choice(METHODS),
+             "amount": o["total_price"],
+             "paid_at": o["order_date"]}
+            for o in orders]
+
 def write_csv(filename, rows):
     with open(filename, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=rows[0].keys())
@@ -60,3 +68,4 @@ write_csv("users.csv", users)
 write_csv("products.csv", products)
 write_csv("orders.csv", orders)
 write_csv("order_items.csv", order_items)
+write_csv("payments.csv", payments)
