@@ -21,3 +21,4 @@ models:
           No usar para reportes de revenue: sumar line_amount desde stg_order_items.
         tests:
           - not_null
+          
