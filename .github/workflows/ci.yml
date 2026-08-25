@@ -38,6 +38,7 @@ jobs:
           POSTGRES_USER: dbt_user
           POSTGRES_PASSWORD: dbt_password
           POSTGRES_DB: fulltractor
+          PGPASSWORD: dbt_password
         run: |
           python generate_data.py
           psql -h localhost -p 5433 -U dbt_user -d fulltractor -f schema.sql
