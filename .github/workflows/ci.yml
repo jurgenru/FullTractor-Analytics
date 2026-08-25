@@ -1,0 +1,49 @@
+name: dbt CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  dbt-build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: dbt_user
+          POSTGRES_PASSWORD: dbt_password
+          POSTGRES_DB: fulltractor
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install dbt-postgres python-dotenv psycopg2-binary
+
+      - name: Load seed data
+        env:
+          POSTGRES_USER: dbt_user
+          POSTGRES_PASSWORD: dbt_password
+          POSTGRES_DB: fulltractor
+        run: |
+          python generate_data.py
+          psql -h localhost -p 5433 -U dbt_user -d fulltractor -f schema.sql
+          python load_data.py
+
+      - name: Run dbt build
+        env:
+          POSTGRES_PASSWORD: dbt_password
+        run: dbt build --project-dir fulltractor_dbt --profiles-dir ci
